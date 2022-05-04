@@ -43,6 +43,25 @@ def get_all_planets():
     planets = Planet.query.all()
     planet_response = []
 
+    ### WAVE 5
+    params = request.args 
+    if "name" and "description" and "miles_from_sun" in params:
+        name_value = params["name"]
+        description_value = params["description"]
+        miles_from_sun_value = params["miles_from_sun"]
+        planets = Planet.query.filter_by(name=name_value, description=description_value, miles_from_sun=miles_from_sun_value)
+    elif "name" in params:
+        name_value = params["name"]
+        planets = Planet.query.filter_by(name=name_value)
+    elif "description" in params:
+        description_value = params["description"]
+        planets = Planet.query.filter_by(description=description_value)
+    elif "miles_from_sun" in params:
+        miles_from_sun_value = params["miles_from_sun"]
+        planets = Planet.query.filter_by(miles_from_sun=miles_from_sun_value)
+    else:
+        planets = Planet.query.all()
+
     for planet in planets:
         planet_response.append({
             "id": planet.id,
